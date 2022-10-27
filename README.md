@@ -5,3 +5,6 @@
 > npm install tailwindcss postcss autoprefixer
 
 #### Apollp setup
+
+
+local only fields    
