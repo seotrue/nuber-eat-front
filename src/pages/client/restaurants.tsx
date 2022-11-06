@@ -11,6 +11,12 @@ import {
   restaurantsPageQueryVariables,
 } from "../../__generated__/restaurantsPageQuery";
 
+
+/*
+* 1. 쿼리를 만든다
+* 2. 타입을 가져온다 npm apollo:
+* 3. 쿼리를 불러온다 만들어진 타입을 대입해서
+* */
 const RESTAURANTS_QUERY = gql`
   query restaurantsPageQuery($input: RestaurantsInput!) {
     allCategories {
@@ -43,10 +49,10 @@ export const Restaurants = () => {
   const { data, loading } = useQuery<
     restaurantsPageQuery,
     restaurantsPageQueryVariables
-  >(RESTAURANTS_QUERY, {
+  >(RESTAURANTS_QUERY,{
+    // 쿼리를 보낼때 파라마터로 보내는 데이터를 variable에 담는다
     variables: {
-      input: {
-        page,
+      input: { // input은 서버에서 담아서 주라고ㅓ 한것것        page,
       },
     },
   });

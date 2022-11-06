@@ -9,7 +9,7 @@ import {
   editProfileVariables,
 } from "../../__generated__/editProfile";
 
-
+// 뮤테이션 작성=> 수정, 삭제 등 필요
 const EDIT_PROFILE_MUTATION = gql`
   mutation editProfile($input: EditProfileInput!) {
     editProfile(input: $input) {
@@ -25,18 +25,24 @@ interface IFormProps {
 }
 
 export const EditProfile = () => {
+  const [editProfile, {}]
   const { data: userData } = useMe();
   const client = useApolloClient();
   const onCompleted = (data: editProfile) => {
+    // mutation 하면서  캐시도 업데이트도 해야함
+
     const {
       editProfile: { ok },
     } = data;
     if (ok && userData) {
+      // update cache
       const {
         me: { email: prevEmail, id },
       } = userData;
       const { email: newEmail } = getValues();
       if (prevEmail !== newEmail) {
+        // cache를 업데이트 해준다
+        // User 해당 필드 명은 같아야함 graphql 에서 오는 type이기 때문
         client.writeFragment({
           id: `User:${id}`,
           fragment: gql`
@@ -65,9 +71,11 @@ export const EditProfile = () => {
       email: userData?.me.email,
     },
   });
+
   const onSubmit = () => {
     const { email, password } = getValues();
     editProfile({
+      // 요청 보낼 데이터
       variables: {
         input: {
           email,
